@@ -1,0 +1,12 @@
+---
+- name: TASK 21 ----------- Locally gnerate admin kubeconfig for remote access
+  hosts: localhost
+  connection: local
+  become: yes
+  vars_files:
+    - vars.yml
+  vars:
+   
+  roles:
+    - 21_generate_admin_config_for_ra
+

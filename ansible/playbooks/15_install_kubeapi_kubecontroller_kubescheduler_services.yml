@@ -1,0 +1,10 @@
+---
+- name: TASK 15----------- Distribute and install kube-api, kube-controller-manager, kube-scherduler services
+  hosts: tag_{{ cluster_name }}-controller
+  become: yes
+  vars_files:
+    - vars.yml
+
+  roles:
+    - 15_install_kubeapi_kubecontroller_kubescheduler_services
+

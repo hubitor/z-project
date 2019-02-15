@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .Release.Name }}-storage
+  labels:
+    app: prometheus
+spec:
+  capacity: 
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: standard
+  mountOptions:
+    - hard
+  nfs:
+    path: /mnt/nfs/prometheus
+    server: 10.240.0.150

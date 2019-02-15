@@ -1,0 +1,10 @@
+---
+- name: TASK 10 ----------- Distribute encryption config to controllers
+  hosts: tag_{{ cluster_name }}-controller
+  become: yes
+  vars_files:
+    - vars.yml
+
+  roles:
+    - 10_distribute_encryption_config
+

@@ -1,0 +1,9 @@
+---
+ - name: Generate encyption key from random
+   shell: head -c 32 /dev/urandom | base64
+   register: encryption_key
+
+ - name: Generate encryption config
+   template:
+     src: encryption-config.j2
+     dest: /opt/pki-infrastructure/encryption-config.yaml

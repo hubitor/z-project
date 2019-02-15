@@ -1,0 +1,5 @@
+---
+- hosts: localhost
+  remote_user: root
+  roles:
+    - install_kubeapi_kubecontroller_kubeschedule_services

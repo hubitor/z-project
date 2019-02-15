@@ -1,0 +1,60 @@
+---
+ - name: Create the Gitlab Group
+   uri:
+     url: http://gitlab-gitlab/api/v3/groups
+     method: POST
+     body: name={{ gitlab_ci_user }}&path={{ gitlab_ci_user }}&visibility=public
+     status_code: 201
+     headers:
+       PRIVATE-TOKEN: "{{ gitlab_token }}"
+   ignore_errors: True
+
+ - name: Create the variable CI_REGISTRY_USERNAME for the Group
+   uri:
+     url: http://gitlab-gitlab/api/v3/groups/{{ gitlab_ci_user }}/variables
+     method: POST
+     body: protected=true&key=CI_REGISTRY_USER&value={{ gitlab_ci_user }}
+     status_code: 201
+     headers:
+       PRIVATE-TOKEN: "{{ gitlab_token }}"
+   ignore_errors: True
+
+ - name: Create the variables CI_REGISTRY_PASSWORD for the Group
+   uri:
+     url: http://gitlab-gitlab/api/v3/groups/{{ gitlab_ci_user }}/variables
+     method: POST
+     body: protected=true&key=CI_REGISTRY_PASSWORD&value={{ gitlab_ci_password }}
+     status_code: 201
+     headers:
+       PRIVATE-TOKEN: "{{ gitlab_token }}"
+   ignore_errors: True
+
+ - name: Create the project CRAWLER in the Group
+   uri:
+     url: http://gitlab-gitlab/api/v3/projects
+     method: POST
+     body: name=search_engine_crawler&namespace_id=2&path=search_engine_crawler&default_branch=master&visibility=public&import_url=https://github.com/miklezzzz/search_engine_crawler.git
+     status_code: 201
+     headers:
+       PRIVATE-TOKEN: "{{ gitlab_token }}"
+   ignore_errors: True
+
+ - name: Create the project CRAWLER_UI in the Group
+   uri:
+     url: http://gitlab-gitlab/api/v3/projects
+     method: POST
+     body: name=search_engine_ui&namespace_id=2&path=search_engine_ui&default_branch=master&visibility=public&import_url=https://github.com/miklezzzz/search_engine_ui.git&jobs_enabled=true&shared_runners_enabled=true&ci_config_path=./.gitlab-ci.yml
+     status_code: 201
+     headers:
+       PRIVATE-TOKEN: "{{ gitlab_token }}"
+   ignore_errors: True
+
+ - name: Create the project CRAWLER_DEPLOY in the Group
+   uri:
+     url: http://gitlab-gitlab/api/v3/projects
+     method: POST
+     body: name=crawler_deploy&namespace_id=2&path=crawler_deploy&default_branch=master&visibility=public&import_url=https://github.com/miklezzzz/crawler-deploy.git
+     status_code: 201
+     headers:
+       PRIVATE-TOKEN: "{{ gitlab_token }}"
+   ignore_errors: True

@@ -1,0 +1,3 @@
+---
+# tasks file for generate_encryption_config
+  - include: generate_encryption_config.yml

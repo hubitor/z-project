@@ -1,0 +1,3 @@
+---
+# tasks file for generate_etcd_service_config
+  - include: generate_etcd_service_config.yml

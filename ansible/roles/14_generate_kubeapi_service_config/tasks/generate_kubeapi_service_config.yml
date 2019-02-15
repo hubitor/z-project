@@ -1,0 +1,21 @@
+---
+ - name: Generate etcd cluster description
+   shell: for instance in {0..{{ c_count-1 }}}; do echo -n "https://$(gcloud compute instances describe {{ cluster_name }}-controller-${instance} --format 'value(networkInterfaces[0].networkIP)'):2379"; if [[ "$instance" < "{{ c_count-1 }}" ]]; then echo -n ","; fi; done
+   register: etcd_cluster_description
+
+ - name: Copy template for kube-api service
+   copy:
+     src: kube-apiserver.service.j2
+     dest: /opt/pki-infrastructure/kube-apiserver.service.j2
+
+ - name: Copy template for kube-api ABAC service
+   copy:
+     src: kube-apiserver-ABAC.service.j2
+     dest: /opt/pki-infrastructure/kube-apiserver.service.j2
+   when: auth == "abac"
+
+ - name: Prepare template file to distribution
+   replace:
+     path: /opt/pki-infrastructure/kube-apiserver.service.j2
+     regexp: 'etcd_cluster_description'
+     replace: '{{ etcd_cluster_description["stdout"] }}'

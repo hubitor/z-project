@@ -1,0 +1,3 @@
+---
+# tasks file for enable_rbac_for_kubelet_auth
+  - include: enable_rbac_for_kubelet_auth.yml

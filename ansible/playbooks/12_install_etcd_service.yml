@@ -1,0 +1,10 @@
+---
+- name: TASK 12 ----------- Distribute etcd service configuration and install the service
+  hosts: tag_{{ cluster_name }}-controller
+  become: yes
+  vars_files:
+    - vars.yml
+
+  roles:
+    - 12_install_etcd_service
+

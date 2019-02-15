@@ -1,0 +1,3 @@
+---
+# tasks file for distribute_encryption_config
+  - include: distribute_encryption_config.yml

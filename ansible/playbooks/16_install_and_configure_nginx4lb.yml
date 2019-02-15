@@ -1,0 +1,10 @@
+---
+- name: TASK 16 ----------- Install and configure NGINX to proxypass /healthz from tcp:80 to tcp:6443
+  hosts: tag_{{ cluster_name }}-controller
+  become: yes
+  vars_files:
+    - vars.yml
+
+  roles:
+    - 16_install_and_configure_nginx4lb
+

@@ -1,0 +1,72 @@
+---
+ - name: Download Kubernetes controller binaries
+   get_url:
+     url: https://storage.googleapis.com/kubernetes-release/release/v1.12.0/bin/linux/amd64/{{ item }}
+     dest: /usr/local/bin
+     mode: 0744
+   with_items:
+     - kube-apiserver
+     - kube-controller-manager
+     - kube-scheduler
+     - kubectl
+
+ - name: Create the Kubernetes configuration directory
+   file:
+     path: /etc/kubernetes/config
+     state: directory
+     mode: 0700
+
+
+ - name: Create the Kubernetes API server directory
+   file:
+     path: /var/lib/kubernetes
+     state: directory
+
+ - name: Copy CA certificate to API directory
+   copy:
+    src: /root/ca.pem
+    dest: /var/lib/kubernetes/ca.pem
+    mode: 0600
+    remote_src: yes
+
+ - name: Copy CA certificate private key to API directory
+   copy:
+    src: /root/ca-key.pem
+    dest: /var/lib/kubernetes/ca-key.pem
+    mode: 0600
+    remote_src: yes
+
+ - name: Copy Kubernetes API certificate to API directory
+   copy:
+    src: /root/kubernetes.pem
+    dest: /var/lib/kubernetes/kubernetes.pem
+    mode: 0600
+    remote_src: yes
+
+ - name: Copy Kubernetes certificate private key to API directory
+   copy:
+    src: /root/kubernetes-key.pem
+    dest: /var/lib/kubernetes/kubernetes-key.pem
+    mode: 0600
+    remote_src: yes
+
+ - name: Copy Service account certificate to API directory
+   copy:
+    src: /root/service-account.pem
+    dest: /var/lib/kubernetes/service-account.pem
+    mode: 0600
+    remote_src: yes
+
+ - name: Copy Service account certificate private key to API directory
+   copy:
+    src: /root/service-account-key.pem
+    dest: /var/lib/kubernetes/service-account-key.pem
+    mode: 0600
+    remote_src: yes
+
+ - name: Copy encryption config to API directory
+   copy:
+    src: /root/encryption-config.yaml
+    dest: /var/lib/kubernetes/encryption-config.yaml
+    mode: 0600
+    remote_src: yes

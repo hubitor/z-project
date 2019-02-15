@@ -1,0 +1,10 @@
+---
+- name: TASK 17 ----------- Configure RBAC for Kubelet Authorization
+  hosts: tag_{{ cluster_name }}-controller
+  become: yes
+  vars_files:
+    - vars.yml
+
+  roles:
+    - 17_enable_rbac_for_kubelet_auth
+

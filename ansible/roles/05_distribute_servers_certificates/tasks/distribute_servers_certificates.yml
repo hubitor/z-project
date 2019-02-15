@@ -1,0 +1,37 @@
+---
+ - name: Copy CA public certificate to controllers
+   copy:
+     src: "/opt/pki-infrastructure/ca.pem"
+     dest: "/root/ca.pem"
+     mode: 0600
+
+ - name: Copy CA private key to controllers
+   copy:
+     src: "/opt/pki-infrastructure/ca-key.pem"
+     dest: "/root/ca-key.pem"
+     mode: 0600
+
+ - name: Copy Kubernetes API certificate to controllers
+   copy:
+     src: "/opt/pki-infrastructure/kubernetes.pem"
+     dest: "/root/kubernetes.pem"
+     mode: 0600
+
+ - name: Copy Kubernetes API private key to controllers
+   copy:
+     src: "/opt/pki-infrastructure/kubernetes-key.pem"
+     dest: "/root/kubernetes-key.pem"
+     mode: 0600
+
+ - name: Copy Service account certificate to controllers
+   copy:
+     src: "/opt/pki-infrastructure/service-account.pem"
+     dest: "/root/service-account.pem"
+     mode: 0600
+
+ - name: Copy Service account private key to controllers
+   copy:
+     src: "/opt/pki-infrastructure/service-account-key.pem"
+     dest: "/root/service-account-key.pem"
+     mode: 0600
+

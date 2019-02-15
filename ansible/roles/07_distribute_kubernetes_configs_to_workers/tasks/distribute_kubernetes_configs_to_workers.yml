@@ -1,0 +1,13 @@
+---
+ - name: Distribute kubelet configs to workers
+   copy:
+     src: "/opt/pki-infrastructure/{{ ansible_nodename }}.kubeconfig"
+     dest: "/root/{{ ansible_nodename }}.kubeconfig"
+     mode: 0600
+
+ - name: Distribute kube-proxy config to workers
+   copy:
+     src: "/opt/pki-infrastructure/kube-proxy.kubeconfig"
+     dest: "/root/kube-proxy.kubeconfig"
+     mode: 0600
+

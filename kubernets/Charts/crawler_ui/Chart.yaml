@@ -1,0 +1,8 @@
+---
+name: ui
+version: 1.0.0
+description: OTUS crawler application UI
+maintainers:
+  - name: Mikhail Scherba
+    email: my@mail.com
+appVersion: 1.0

@@ -1,0 +1,70 @@
+---
+ - name: Download etcd binaries
+   get_url:
+     url: https://github.com/coreos/etcd/releases/download/v3.3.9/etcd-v3.3.9-linux-amd64.tar.gz
+     dest: /tmp/etcd-v3.3.9-linux-amd64.tar.gz
+
+ - name: Extract etcd binaries
+   unarchive:
+     src: /tmp/etcd-v3.3.9-linux-amd64.tar.gz
+     dest: /tmp
+     remote_src: yes
+
+ - name: Copy etcd binary
+   copy:
+     src: /tmp/etcd-v3.3.9-linux-amd64/etcd
+     dest: /usr/local/bin
+     remote_src: yes
+     mode: 0700
+
+ - name: Copy etcdctl binary
+   copy:
+     src: /tmp/etcd-v3.3.9-linux-amd64/etcdctl
+     dest: /usr/local/bin
+     remote_src: yes
+     mode: 0700
+
+ - name: Create /etc/etcd directory
+   file: 
+     path: /etc/etcd
+     state: directory
+     mode:  0700
+
+ - name: Create /var/lib/etcd directory
+   file: 
+     path: /var/lib/etcd
+     state: directory
+     mode:  0700
+    
+ - name: Distribute etcd service config file to controllers
+   template:
+     src: /opt/pki-infrastructure/etcd.service.j2
+     dest: /etc/systemd/system/etcd.service
+ 
+ - name: Copy CA key to /etc/etcd
+   copy:
+     src: /root/ca.pem
+     dest: /etc/etcd/ca.pem
+     remote_src: yes
+
+ - name: Copy kubernetes.pem certificate to /etc/etcd
+   copy:
+     src: /root/kubernetes.pem
+     dest: /etc/etcd/kubernetes.pem
+     remote_src: yes
+
+ - name: Copy kubernetes-key.pem key to /etc/etcd
+   copy:
+     src: /root/kubernetes-key.pem
+     dest: /etc/etcd/kubernetes-key.pem
+     remote_src: yes
+
+ - name: Reload systemd configuration
+   systemd:
+     daemon_reload: yes
+
+ - name: Enable and start etcd daemon
+   systemd:
+     name: etcd
+     state: started
+     enabled: yes

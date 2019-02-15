@@ -1,0 +1,14 @@
+---
+ - name: Install python2
+   raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+ 
+ - name: Install python-pip
+   apt: 
+     name: python-pip
+     state: present
+
+ - name: Install openshift python client via pip
+   pip:
+     name: openshift
+
+

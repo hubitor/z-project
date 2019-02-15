@@ -1,0 +1,11 @@
+---
+- name: TASK 9 ----------- Local generate encyption config and key
+  hosts: localhost
+  connection: local
+  become: yes
+  vars_files:
+    - vars.yml
+    
+  roles:
+    - 09_generate_encryption_config
+

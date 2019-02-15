@@ -1,0 +1,10 @@
+---
+- name: TASK 8 ----------- Distribute kubernetes configs to controllers
+  hosts: tag_{{ cluster_name }}-controller
+  become: yes
+  vars_files:
+    - vars.yml
+
+  roles:
+    - 08_distribute_kubernetes_configs_to_controllers
+

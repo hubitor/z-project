@@ -1,0 +1,10 @@
+---
+- name: TASK 18 ----------- Provisioning worker nodes
+  hosts: tag_{{ cluster_name }}-worker
+  become: yes
+  vars_files:
+    - vars.yml
+
+  roles:
+    - 18_provisioning_worker_nodes
+

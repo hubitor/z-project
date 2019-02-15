@@ -1,0 +1,105 @@
+---
+ - name: Generate kubeconfig files for workers - set cluster
+   shell: kubectl config set-cluster kubernetes-the-hard-way --certificate-authority=ca.pem --embed-certs=true --server=https://$(gcloud compute addresses describe kubernetes-the-hard-way --region $(gcloud config get-value compute/region) --format 'value(address)'):6443 --kubeconfig={{ cluster_name }}-worker-{{ item }}.kubeconfig
+   args:
+     chdir: "/opt/pki-infrastructure/"
+   loop: "{{ query('sequence', 'start=0 end={{ w_count-1 }}') }}"
+
+ - name: Generate kubeconfig files for workers - set credentials
+   shell: kubectl config set-credentials system:node:{{ cluster_name }}-worker-{{ item }} --client-certificate={{ cluster_name }}-worker-{{ item }}.pem --client-key={{ cluster_name }}-worker-{{ item }}-key.pem --embed-certs=true --kubeconfig={{ cluster_name }}-worker-{{ item }}.kubeconfig
+   args:
+     chdir: "/opt/pki-infrastructure/"
+   loop: "{{ query('sequence', 'start=0 end={{ w_count-1 }}') }}"
+
+ - name: Generate kubeconfig files for workers - set context
+   shell: kubectl config set-context default --cluster=kubernetes-the-hard-way --user=system:node:{{ cluster_name }}-worker-{{ item }} --kubeconfig={{ cluster_name }}-worker-{{ item }}.kubeconfig
+   args:
+     chdir: "/opt/pki-infrastructure/"
+   loop: "{{ query('sequence', 'start=0 end={{ w_count-1 }}') }}"
+
+ - name: Generate kubeconfig files for workers - set default context
+   shell: kubectl config use-context default --kubeconfig={{ cluster_name }}-worker-{{ item }}.kubeconfig
+   args:
+     chdir: "/opt/pki-infrastructure/"
+   loop: "{{ query('sequence', 'start=0 end={{ w_count-1 }}') }}"
+
+ - name: Generate kubeconfig files for kube-proxy - set cluster
+   shell: kubectl config set-cluster kubernetes-the-hard-way --certificate-authority=ca.pem --embed-certs=true --server=https://$(gcloud compute addresses describe kubernetes-the-hard-way --region $(gcloud config get-value compute/region) --format 'value(address)'):6443 --kubeconfig=kube-proxy.kubeconfig
+   args:
+     chdir: "/opt/pki-infrastructure/"
+
+ - name: Generate kubeconfig files for kube-proxy - set credentials
+   shell: kubectl config set-credentials system:kube-proxy --client-certificate=kube-proxy.pem --client-key=kube-proxy-key.pem --embed-certs=true --kubeconfig=kube-proxy.kubeconfig
+   args:
+     chdir: "/opt/pki-infrastructure/"
+
+ - name: Generate kubeconfig files for kube-proxy - set context
+   shell: kubectl config set-context default --cluster=kubernetes-the-hard-way --user=system:kube-proxy --kubeconfig=kube-proxy.kubeconfig
+   args:
+     chdir: "/opt/pki-infrastructure/"
+
+ - name: Generate kubeconfig files for kube-proxy - set default context
+   shell: kubectl config use-context default --kubeconfig=kube-proxy.kubeconfig
+   args:
+     chdir: "/opt/pki-infrastructure/"
+
+ - name: Generate kubeconfig files for kube-controller-manager - set cluster
+   shell: kubectl config set-cluster kubernetes-the-hard-way --certificate-authority=ca.pem --embed-certs=true --server=https://127.0.0.1:6443 --kubeconfig=kube-controller-manager.kubeconfig
+   args:
+     chdir: "/opt/pki-infrastructure/"
+
+ - name: Generate kubeconfig files for kube-controller-manager - set credentials
+   shell: kubectl config set-credentials system:kube-controller-manager --client-certificate=kube-controller-manager.pem --client-key=kube-controller-manager-key.pem --embed-certs=true --kubeconfig=kube-controller-manager.kubeconfig
+   args:
+     chdir: "/opt/pki-infrastructure/"
+
+ - name: Generate kubeconfig files for kube-controller-manager - set context
+   shell: kubectl config set-context default --cluster=kubernetes-the-hard-way --user=system:kube-controller-manager --kubeconfig=kube-controller-manager.kubeconfig
+   args:
+     chdir: "/opt/pki-infrastructure/"
+
+ - name: Generate kubeconfig files for kube-controller-manager - set default context
+   shell: kubectl config use-context default --kubeconfig=kube-controller-manager.kubeconfig
+   args:
+     chdir: "/opt/pki-infrastructure/"
+
+ - name: Generate kubeconfig files for kube-scheduler - set cluster
+   shell: kubectl config set-cluster kubernetes-the-hard-way --certificate-authority=ca.pem --embed-certs=true --server=https://127.0.0.1:6443 --kubeconfig=kube-scheduler.kubeconfig
+   args:
+     chdir: "/opt/pki-infrastructure/"
+
+ - name: Generate kubeconfig files for kube-scheduler - set credentials
+   shell: kubectl config set-credentials system:kube-scheduler --client-certificate=kube-scheduler.pem --client-key=kube-scheduler-key.pem --embed-certs=true --kubeconfig=kube-scheduler.kubeconfig
+   args:
+     chdir: "/opt/pki-infrastructure/"
+
+ - name: Generate kubeconfig files for kube-scheduler - set context
+   shell: kubectl config set-context default --cluster=kubernetes-the-hard-way --user=system:kube-scheduler --kubeconfig=kube-scheduler.kubeconfig
+   args:
+     chdir: "/opt/pki-infrastructure/"
+
+ - name: Generate kubeconfig files for kube-scheduler - set default context
+   shell: kubectl config use-context default --kubeconfig=kube-scheduler.kubeconfig
+   args:
+     chdir: "/opt/pki-infrastructure/"
+
+ - name: Generate kubeconfig files for admin - set cluster
+   shell: kubectl config set-cluster kubernetes-the-hard-way --certificate-authority=ca.pem --embed-certs=true --server=https://127.0.0.1:6443 --kubeconfig=admin.kubeconfig
+   args:
+     chdir: "/opt/pki-infrastructure/"
+
+ - name: Generate kubeconfig files for admin - set credentials
+   shell: kubectl config set-credentials admin --client-certificate=admin.pem --client-key=admin-key.pem --embed-certs=true --kubeconfig=admin.kubeconfig
+   args:
+     chdir: "/opt/pki-infrastructure/"
+
+ - name: Generate kubeconfig files for admin - set context
+   shell: kubectl config set-context default --cluster=kubernetes-the-hard-way --user=admin --kubeconfig=admin.kubeconfig
+   args:
+     chdir: "/opt/pki-infrastructure/"
+
+ - name: Generate kubeconfig files for admin - set default context
+   shell: kubectl config use-context default --kubeconfig=admin.kubeconfig
+   args:
+     chdir: "/opt/pki-infrastructure/"
+

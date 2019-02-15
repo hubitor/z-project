@@ -1,0 +1,10 @@
+---
+- name: TASK 5 ----------- Distribute server-side and CA certificates to controllers
+  hosts: tag_{{ cluster_name }}-controller
+  become: yes
+  vars_files:
+    - vars.yml
+
+  roles:
+    - 05_distribute_servers_certificates
+

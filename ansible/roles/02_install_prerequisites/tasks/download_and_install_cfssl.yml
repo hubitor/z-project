@@ -1,0 +1,12 @@
+---
+ - name: Download and install cfssl utility
+   get_url: 
+     url: https://pkg.cfssl.org/R1.2/cfssl_linux-amd64
+     dest: /usr/local/bin/cfssl
+     mode: 0740
+
+ - name: Download and install cfssljson utility
+   get_url: 
+     url: https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64
+     dest: /usr/local/bin/cfssljson
+     mode: 0740

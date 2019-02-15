@@ -1,0 +1,3 @@
+---
+# tasks file for download_and_install_kubernetes_controller_binaries
+  - include: download_and_install_kubernetes_controller_binaries.yml

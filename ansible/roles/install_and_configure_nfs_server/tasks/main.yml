@@ -1,0 +1,4 @@
+---
+# tasks file for install_and_configure_nfs_server
+  - include: install_and_configure_nfs_server.yml
+

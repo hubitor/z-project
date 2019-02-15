@@ -1,0 +1,3 @@
+---
+# tasks file for generate_kubeapi_service_config
+  - include: generate_kubeapi_service_config.yml

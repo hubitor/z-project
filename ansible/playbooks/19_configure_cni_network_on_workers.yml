@@ -1,0 +1,10 @@
+---
+- name: TASK 19 ----------- Configure CNI network on workers
+  hosts: tag_{{ cluster_name }}-worker
+  become: yes
+  vars_files:
+    - vars.yml
+
+  roles:
+    - 19_configure_cni_network_on_workers
+

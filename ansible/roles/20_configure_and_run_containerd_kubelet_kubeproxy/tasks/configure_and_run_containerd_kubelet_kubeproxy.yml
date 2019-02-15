@@ -1,0 +1,91 @@
+---
+ - name: Create containerd config
+   template:
+     src: config.toml.j2
+     dest: /etc/containerd/config.toml
+     mode: 0600
+
+ - name: Create containerd service config
+   template:
+     src: containerd.service.j2
+     dest: /etc/systemd/system/containerd.service
+     
+ - name: Copy Kubelet private key to Kubelet directory
+   copy:
+     src: /root/{{ ansible_hostname }}-key.pem
+     dest: /var/lib/kubelet/{{ ansible_hostname }}-key.pem
+     remote_src: yes
+     mode: 0600
+
+ - name: Copy Kubelet public certificate to Kubelet directory
+   copy:
+     src: /root/{{ ansible_hostname }}.pem
+     dest: /var/lib/kubelet/{{ ansible_hostname }}.pem
+     remote_src: yes
+     mode: 0600
+
+ - name: Copy Kubelet kubeconfig to Kubelet directory
+   copy:
+     src: /root/{{ ansible_hostname }}.kubeconfig
+     dest: /var/lib/kubelet/kubeconfig
+     remote_src: yes
+     mode: 0600
+
+ - name: Copy CA public key to Kubernetes directory
+   copy:
+     src: /root/ca.pem
+     dest: /var/lib/kubernetes/ca.pem
+     remote_src: yes
+     mode: 0600
+
+ - name: Get POD_CIDR from GCE meta
+   uri:
+     url: http://metadata.google.internal/computeMetadata/v1/instance/attributes/pod-cidr
+     return_content: yes
+     headers:
+        Metadata-Flavor: Google
+   register: POD_CIDR
+
+ - name: Create Kubelet configuration file
+   template:
+     src: kubelet-config.yaml.j2
+     dest: /var/lib/kubelet/kubelet-config.yaml
+     mode: 0600
+
+ - name: Create Kubelet service configuration file
+   template:
+     src: kubelet.service.j2
+     dest: /etc/systemd/system/kubelet.service
+
+ - name: Copy Kubernetes proxy kubeconfig to related directory
+   copy:
+     src: /root/kube-proxy.kubeconfig
+     dest: /var/lib/kube-proxy/kubeconfig
+     remote_src: yes
+     mode: 0600
+
+ - name: Copy Kubernetes proxy config to related directory
+   template:
+     src: kube-proxy-config.yaml.j2
+     dest: /var/lib/kube-proxy/kube-proxy-config.yaml
+     mode: 0600
+ 
+ - name: Copy Kubernetes proxy service config
+   template:
+     src: kube-proxy.service.j2
+     dest: /etc/systemd/system/kube-proxy.service
+
+ - name: Reload systemd config
+   systemd:
+     daemon_reload: yes
+
+ - name: Enable and start containerd, kubelet and kube-proxy services
+   systemd:
+     name: "{{ item }}"
+     state: started
+     enabled: yes
+   with_items:
+     - containerd
+     - kubelet
+     - kube-proxy
+

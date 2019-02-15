@@ -1,0 +1,11 @@
+---
+ - name: Prepare Tiller manifset
+   copy:
+     src: tiller.yml
+     dest: /opt/pki-infrastructure/tiller.yml
+
+ - name: Install Tiller serviceaccoun
+   shell: kubectl apply -f /opt/pki-infrastructure/tiller.yml --kubeconfig=/opt/pki-infrastructure/config
+
+ - name: Deploy Tiller in the cluster
+   shell: helm init --service-account tiller

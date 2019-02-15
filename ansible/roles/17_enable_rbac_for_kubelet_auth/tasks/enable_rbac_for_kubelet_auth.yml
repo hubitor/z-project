@@ -1,0 +1,25 @@
+---
+ - name: Copy ClusterRole manifest to controllers
+   copy:
+    src: cluster_role.yml
+    dest: /root/cluster_role.yml
+    mode: 0600
+
+ - name: Create ClusterRole to access Kubelet API
+   k8s:
+     state: present
+     src: /root/cluster_role.yml
+     kubeconfig: /root/admin.kubeconfig
+
+ - name: Copy Role to User manifest to controllers
+   copy:
+    src: role_to_user.yml
+    dest: /root/role_to_user.yml
+    mode: 0600
+
+
+ - name: Bind ClusterRole to kubernetes user
+   k8s:
+     state: present
+     src: /root/role_to_user.yml
+     kubeconfig: /root/admin.kubeconfig

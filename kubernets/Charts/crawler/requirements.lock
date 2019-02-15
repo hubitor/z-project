@@ -1,0 +1,15 @@
+dependencies:
+- name: ui
+  repository: file://../crawler_ui
+  version: 1.0.0
+- name: crawler
+  repository: file://../crawler_the
+  version: 1.0.0
+- name: rabbitmq
+  repository: file://../rabbitmq
+  version: 4.2.0
+- name: mongodb
+  repository: file://../mongodb
+  version: 0.4.18
+digest: sha256:74fad8737989c3ccc03c18cd081bf794811fedc7471a66b788a1c868951ea7d4
+generated: 2019-02-14T23:40:09.171918423+05:00

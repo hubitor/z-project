@@ -1,0 +1,13 @@
+---
+- name: TASK 6 ----------- Generate kubelet Kubernetes configuration files
+  hosts: localhost
+  connection: local
+  become: yes
+  vars_files:
+    - vars.yml
+  vars:
+
+
+  roles:
+    - 06_generate_kubernetes_configs
+

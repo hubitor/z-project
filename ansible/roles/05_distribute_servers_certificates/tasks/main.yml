@@ -1,0 +1,3 @@
+---
+# tasks file for distribute_servers_certificates
+  - include: distribute_servers_certificates.yml

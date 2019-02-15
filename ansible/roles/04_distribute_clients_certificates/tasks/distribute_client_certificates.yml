@@ -1,0 +1,18 @@
+---
+ - name: Copy CA public certificate to workers
+   copy:
+     src: "/opt/pki-infrastructure/ca.pem"
+     dest: "/root/ca.pem"
+     mode: 0600
+
+ - name: Copy client certificate private key to workers
+   copy:
+     src: "/opt/pki-infrastructure/{{ ansible_nodename }}-key.pem"
+     dest: "/root/{{ ansible_nodename }}-key.pem"
+     mode: 0600
+
+ - name: Copy client certificate to workers
+   copy:
+     src: "/opt/pki-infrastructure/{{ ansible_nodename }}.pem"
+     dest: "/root/{{ ansible_nodename }}.pem"
+     mode: 0600

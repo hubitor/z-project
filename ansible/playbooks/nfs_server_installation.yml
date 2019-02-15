@@ -1,0 +1,8 @@
+---
+- name: TASK 1 ----------- Install and configure NFS server
+  hosts: tag_nfs-server
+  become: yes
+  gather_facts: no
+    
+  roles:
+    - install_and_configure_nfs_server

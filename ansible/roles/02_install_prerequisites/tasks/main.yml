@@ -1,0 +1,5 @@
+---
+# tasks file for install_prerequisites
+  - include: download_and_install_cfssl.yml
+  - include: download_and_install_kubectl.yml
+

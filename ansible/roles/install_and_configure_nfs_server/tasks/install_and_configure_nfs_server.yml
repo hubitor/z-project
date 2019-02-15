@@ -1,0 +1,84 @@
+---
+ - name: Install python2
+   raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+
+ - name: Install NFS server utilities
+   apt:
+     name: nfs-kernel-server
+     state: present
+
+ - name: Create NFS directory for mongo
+   file:
+     path: /mnt/nfs/mongo
+     state: directory
+     recurse: yes
+     mode: 0777
+
+ - name: Create NFS directory for prometheus
+   file:
+     path: /mnt/nfs/prometheus
+     state: directory
+     recurse: yes
+     mode: 0777
+
+ - name: Create NFS directory for rabbitmq
+   file:
+     path: /mnt/nfs/rabbit
+     state: directory
+     recurse: yes
+     mode: 0777
+
+ - name: Create NFS directory for gitlab
+   file:
+     path: /mnt/nfs/gitlab
+     state: directory
+     recurse: yes
+     mode: 0777
+
+ - name: Create NFS directory for gitlab-config
+   file:
+     path: /mnt/nfs/gitlab/config
+     state: directory
+     recurse: yes
+     mode: 0777
+
+ - name: Create NFS directory for gitlab itself
+   file:
+     path: /mnt/nfs/gitlab/storage
+     state: directory
+     recurse: yes
+     mode: 0777
+
+ - name: Create NFS directory for gitlab registry
+   file:
+     path: /mnt/nfs/gitlab/registry
+     state: directory
+     recurse: yes
+     mode: 0777
+
+ - name: Create NFS directory for gitlab redis
+   file:
+     path: /mnt/nfs/gitlab/redis
+     state: directory
+     recurse: yes
+     mode: 0777
+
+ - name: Create NFS directory for gitlab postgres
+   file:
+     path: /mnt/nfs/gitlab/postgres
+     state: directory
+     recurse: yes
+     mode: 0777
+
+ - name: Copy NFS configuration file
+   copy:
+     src: exports
+     dest: "/etc/exports"
+     mode: 0600
+
+ - name: Enable and start NFS service
+   systemd:
+     name: nfs-server
+     state: restarted
+     enabled: yes
+

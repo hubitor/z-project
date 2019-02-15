@@ -1,0 +1,7 @@
+---
+- name: Plybook for NFS server
+  hosts: tag_nfs-server
+  gather_facts: false
+  
+- import_playbook: nfs_server_installation.yml
+

@@ -1,0 +1,6 @@
+---
+ - name: Distribute encryption config to controllers
+   template:
+     src: /opt/pki-infrastructure/encryption-config.yaml
+     dest: /root/encryption-config.yaml
+     mode: 0600

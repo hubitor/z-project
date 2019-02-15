@@ -1,0 +1,3 @@
+---
+# tasks file for configure_cni_network_on_workers
+  - include: configure_cni_network_on_workers.yml

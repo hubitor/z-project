@@ -1,0 +1,15 @@
+---
+ - name: Generate etcd cluster description
+   shell: for instance in {0..{{ c_count-1 }}}; do echo -n "{{ cluster_name }}-controller-$instance=https://$(gcloud compute instances describe {{ cluster_name }}-controller-${instance} --format 'value(networkInterfaces[0].networkIP)'):2380"; if [[ "$instance" < "{{ c_count-1 }}" ]]; then echo -n ","; fi; done
+   register: etcd_cluster_description
+
+ - name: Copy template for etcd service 
+   copy:
+     src: etcd.service.j2
+     dest: /opt/pki-infrastructure/etcd.service.j2
+
+ - name: Prepare template file to distribution
+   replace:
+     path: /opt/pki-infrastructure/etcd.service.j2
+     regexp: 'etcd_cluster_description'
+     replace: '{{ etcd_cluster_description["stdout"] }}'

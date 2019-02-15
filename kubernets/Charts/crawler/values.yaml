@@ -1,0 +1,14 @@
+crawler:
+  image:
+    repository: miklezzzz
+    tag: latest
+  service:
+    externalPort: 9292
+
+crawler_ui:
+  image:
+    repository: miklezzzz
+    tag: latest
+  service:
+    externalPort: 5000
+

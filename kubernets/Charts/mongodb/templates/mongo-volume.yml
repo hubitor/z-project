@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .Release.Name }}-mongo-disk
+  labels:
+    app: mongo
+spec:
+  capacity: 
+    storage: 2Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: standard
+  mountOptions:
+    - hard
+  nfs:
+    path: /mnt/nfs/mongo
+    server: 10.240.0.150

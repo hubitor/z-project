@@ -1,0 +1,3 @@
+---
+# tasks file for generate_kubelet_k8s_configs
+  - include: generate_kubernetes_configs.yml

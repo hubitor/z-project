@@ -1,0 +1,10 @@
+---
+- name: TASK 7 ----------- Distribute kubernetes configs to workers
+  hosts: tag_{{ cluster_name }}-worker
+  become: yes
+  vars_files:
+    - vars.yml
+
+  roles:
+    - 07_distribute_kubernetes_configs_to_workers
+

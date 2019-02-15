@@ -1,0 +1,95 @@
+---
+ - name: Make directory for certificates
+   file: 
+     path: "/opt/pki-infrastructure"
+     state: directory
+     mode: 0700
+
+ - name: Create CA configuration file
+   copy:
+     content: "{{ ca_config }}"
+     dest: "/opt/pki-infrastructure/ca-config.json"
+   
+ - name: Create CA CSR file
+   copy:
+     content: "{{ ca_csr }}"
+     dest: "/opt/pki-infrastructure/ca-csr.json"
+
+ - name: Generate CA certificate and key
+   shell: cfssl gencert -initca ca-csr.json | cfssljson -bare ca
+   args:
+     chdir: "/opt/pki-infrastructure/"
+
+ - name: Create Admin client CSR file
+   copy:
+     content: "{{ admin_csr }}"
+     dest: "/opt/pki-infrastructure/admin-csr.json"
+
+ - name: Generate Admin certificate and private key
+   shell: cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=kubernetes admin-csr.json | cfssljson -bare admin
+   args:
+     chdir: "/opt/pki-infrastructure/"
+
+ - name: Generate Kubelet CSR files for workers
+   template: 
+     src: kubelet-csr-template.j2
+     dest: "/opt/pki-infrastructure/{{ cluster_name }}-worker-{{ item }}-csr.json"
+   loop: "{{ query('sequence', 'start=0 end={{ w_count-1 }}') }}"
+
+ - name: Generate Kubelet certificates and private keys for workers
+   shell: cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -hostname={{ cluster_name }}-worker-{{ item }},$(gcloud compute instances describe {{ cluster_name }}-worker-{{ item }} --format 'value(networkInterfaces[0].accessConfigs[0].natIP)'),$(gcloud compute instances describe {{ cluster_name }}-worker-{{ item }} --format 'value(networkInterfaces[0].networkIP)') -profile=kubernetes {{ cluster_name }}-worker-{{ item }}-csr.json | cfssljson -bare {{ cluster_name }}-worker-{{ item }}
+   args:
+     chdir: "/opt/pki-infrastructure/"
+   loop: "{{ query('sequence', 'start=0 end={{ w_count-1 }}') }}"
+
+ - name: Create Kube controller manager CSR file
+   copy:
+     content: "{{ kube_controller_csr }}"
+     dest: "/opt/pki-infrastructure/kube-controller-manager-csr.json"
+
+ - name: Generate Kube controller manager client certificate and private key
+   shell: cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=kubernetes kube-controller-manager-csr.json | cfssljson -bare kube-controller-manager
+   args:
+     chdir: "/opt/pki-infrastructure/"
+
+ - name: Create Kube proxy CSR file
+   copy:
+     content: "{{ kube_proxy_csr }}"
+     dest: "/opt/pki-infrastructure/kube-proxy-csr.json"
+
+ - name: Generate Kube proxy client certificate and private key
+   shell: cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=kubernetes kube-proxy-csr.json | cfssljson -bare kube-proxy
+   args:
+     chdir: "/opt/pki-infrastructure/"
+
+ - name: Create Kube scheduler CSR file
+   copy:
+     content: "{{ kube_scheduler_csr }}"
+     dest: "/opt/pki-infrastructure/kube-scheduler-csr.json"
+
+ - name: Generate Kube scheduler client certificate and private key
+   shell: cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=kubernetes kube-scheduler-csr.json | cfssljson -bare kube-scheduler
+   args:
+     chdir: "/opt/pki-infrastructure/"
+
+ - name: Create Kubernetes API CSR file
+   copy:
+     content: "{{ kubernetes_csr }}"
+     dest: "/opt/pki-infrastructure/kubernetes-csr.json"
+
+ - name: Generate Kubernetes API certificate and private key
+   shell: cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -hostname=10.32.0.1,$(for instance in {0..{{ c_count-1 }}}; do echo -n "$(gcloud compute instances describe {{ cluster_name }}-controller-${instance} --format 'value(networkInterfaces[0].networkIP)'),"; done),$(gcloud compute addresses describe kubernetes-the-hard-way --region $(gcloud config get-value compute/region) --format 'value(address)'),127.0.0.1,kubernetes.default -profile=kubernetes kubernetes-csr.json | cfssljson -bare kubernetes
+   args:
+     chdir: "/opt/pki-infrastructure/"
+
+ - name: Create Service account CSR file
+   copy:
+     content: "{{ service_account_csr }}"
+     dest: "/opt/pki-infrastructure/service-account-csr.json"
+
+ - name: Generate Service account client certificate and private key
+   shell: cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=kubernetes service-account-csr.json | cfssljson -bare service-account
+   args:
+     chdir: "/opt/pki-infrastructure/"
+
+

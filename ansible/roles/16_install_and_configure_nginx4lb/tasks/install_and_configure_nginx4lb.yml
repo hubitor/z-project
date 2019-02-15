@@ -1,0 +1,23 @@
+---
+ - name: Install NGINX to controllers
+   apt:
+     name: nginx
+     state: present
+
+ - name: Distribute NGINX config
+   copy:
+     src: kubernetes.default.svc.cluster.local
+     dest: /etc/nginx/sites-available/kubernetes.default.svc.cluster.local
+
+ - name: Enable NGINX site
+   file:
+     src: /etc/nginx/sites-available/kubernetes.default.svc.cluster.local
+     dest: /etc/nginx/sites-enabled/kubernetes.default.svc.cluster.local
+     state: link
+
+ - name: Enable and Start NGINX
+   systemd:
+     name: nginx
+     enabled: yes
+     state: reloaded
+     

@@ -1,0 +1,11 @@
+---
+service:
+  internalPort: 8000
+
+image:
+  repository: miklezzzz
+  tag: latest
+
+mongoPORT:
+mongoHOST:
+

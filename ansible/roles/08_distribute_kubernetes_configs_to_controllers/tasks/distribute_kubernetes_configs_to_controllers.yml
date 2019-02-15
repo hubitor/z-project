@@ -1,0 +1,20 @@
+---
+ - name: Distribute admin config to controllers
+   copy:
+     src: "/opt/pki-infrastructure/admin.kubeconfig"
+     dest: "/root/admin.kubeconfig"
+     mode: 0600
+
+ - name: Distribute kube-controller-manager config to controllers
+   copy:
+     src: "/opt/pki-infrastructure/kube-controller-manager.kubeconfig"
+     dest: "/root/kube-controller-manager.kubeconfig"
+     mode: 0600
+
+ - name: Distribute kube-scheduler config to controllers
+   copy:
+     src: "/opt/pki-infrastructure/kube-scheduler.kubeconfig"
+     dest: "/root/kube-scheduler.kubeconfig"
+     mode: 0600
+
+

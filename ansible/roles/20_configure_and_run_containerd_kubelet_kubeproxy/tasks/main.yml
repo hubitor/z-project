@@ -1,0 +1,3 @@
+---
+# tasks file for configure_and_run_containerd_kubelet_kubeproxy
+  - include: configure_and_run_containerd_kubelet_kubeproxy.yml

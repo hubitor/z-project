@@ -1,0 +1,3 @@
+---
+# tasks file for distribute_kubernetes_configs_to_controllers
+  - include: distribute_kubernetes_configs_to_controllers.yml

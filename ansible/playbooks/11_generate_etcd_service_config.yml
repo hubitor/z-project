@@ -1,0 +1,13 @@
+---
+- name: TASK 11 ----------- Generate etcd service config from template
+  hosts: localhost
+  connection: local
+  become: yes
+  vars_files:
+    - vars.yml
+  vars:
+
+
+  roles:
+    - 11_generate_etcd_service_config
+

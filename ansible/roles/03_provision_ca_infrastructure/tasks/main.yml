@@ -1,0 +1,3 @@
+---
+# tasks file for provisioning_ca
+  - include: provision_ca_infrastructure.yml

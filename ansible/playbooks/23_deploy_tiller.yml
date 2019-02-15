@@ -1,0 +1,12 @@
+---
+- name: TASK 23 ----------- Init Helm and deploy Tiller
+  hosts: localhost
+  connection: local
+  become: yes
+  vars_files:
+    - vars.yml
+  vars:
+   
+  roles:
+    - 23_deploy_tiller
+

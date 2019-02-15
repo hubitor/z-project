@@ -1,0 +1,57 @@
+---
+- name: Main Playbook
+  hosts: tag_{{ cluster_name }}-worker:tag_{{ cluster_name }}-controller
+  gather_facts: false
+  vars_files:
+    - vars.yml
+  vars:
+    path_to_pki: '/opt/pki-infrastructure'
+
+  
+- import_playbook: 01_install_python.yml
+  when: 1 >= start_from
+- import_playbook: 02_install_prerequisites.yml
+  when: 2 >= start_from
+- import_playbook: 03_provision_ca_infrastructure.yml
+  when: 3 >= start_from
+- import_playbook: 04_distribute_clients_certificates.yml
+  when: 4 >= start_from
+- import_playbook: 05_distribute_servers_certificates.yml
+  when: 5 >= start_from
+- import_playbook: 06_generate_kubernetes_configs.yml
+  when: 6 >= start_from
+- import_playbook: 07_distribute_kubernetes_configs_to_workers.yml
+  when: 7 >= start_from
+- import_playbook: 08_distribute_kubernetes_configs_to_controllers.yml
+  when: 8 >= start_from
+- import_playbook: 09_generate_encryption_config.yml
+  when: 9 >= start_from
+- import_playbook: 10_distribute_encryption_config.yml
+  when: 10 >= start_from
+- import_playbook: 11_generate_etcd_service_config.yml
+  when: 11 >= start_from
+- import_playbook: 12_install_etcd_service.yml
+  when: 12 >= start_from
+- import_playbook: 13_download_and_install_kubernetes_controller_binaries.yml
+  when: 13 >= start_from
+- import_playbook: 14_generate_kubeapi_service_config.yml
+  when: 14 >= start_from
+- import_playbook: 15_install_kubeapi_kubecontroller_kubescheduler_services.yml
+  when: 15 >= start_from
+- import_playbook: 16_install_and_configure_nginx4lb.yml
+  when: 16 >= start_from
+- import_playbook: 17_enable_rbac_for_kubelet_auth.yml
+  when: 17 >= start_from
+- import_playbook: 18_provisioning_worker_nodes.yml
+  when: 18 >= start_from
+- import_playbook: 19_configure_cni_network_on_workers.yml
+  when: 19 >= start_from
+- import_playbook: 20_configure_and_run_containerd_kubelet_kubeproxy.yml
+  when: 20 >= start_from
+- import_playbook: 21_generate_admin_config_for_ra.yml
+  when: 21 >= start_from
+- import_playbook: 22_deploy_coredns.yml
+  when: 22 >= start_from
+- import_playbook: 23_deploy_tiller.yml
+  when: 23 >= start_from
+

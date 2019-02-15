@@ -1,0 +1,8 @@
+---
+name: ingress-nginx
+version: 1.0.0
+description: Nginx Ingress Controller
+maintainers:
+  - name: Mikhail Scherba
+    email: my@mail.com
+appVersion: 1.0

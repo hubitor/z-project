@@ -1,0 +1,12 @@
+---
+ - name: Deploy CoreDNS Add-on to remote cluster
+   shell: kubectl apply -f https://storage.googleapis.com/kubernetes-the-hard-way/coredns.yaml --kubeconfig=/opt/pki-infrastructure/config
+
+ - name: Test CoreDNS deployment
+   shell: kubectl get pods -l k8s-app=kube-dns -n kube-system --kubeconfig=/opt/pki-infrastructure/config
+   register: output
+
+ - name: Print output
+   debug:
+     msg: "{{ output }}"
+ 

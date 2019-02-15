@@ -1,0 +1,16 @@
+---
+service:
+  internalPort: 8000
+
+image:
+  repository: miklezzzz
+  tag: latest
+
+mongoPORT:
+mongoHOST:
+rmqHOST:
+rmqUSERNAME: rmq-username
+rmqPASSWORD: rmq-password
+rmqQUEUE: rmq-queue
+URL: "https://vitkhab.github.io/search_engine_test_site/"
+EXCLUDE_URLS: ".*github.com"

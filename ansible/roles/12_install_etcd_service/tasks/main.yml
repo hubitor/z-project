@@ -1,0 +1,3 @@
+---
+# tasks file for distribute_etcd_service_config
+  - include: install_etcd_service.yml

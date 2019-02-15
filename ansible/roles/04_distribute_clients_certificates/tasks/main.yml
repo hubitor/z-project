@@ -1,0 +1,3 @@
+---
+# tasks file for distribute_client_certificates
+  - include: distribute_client_certificates.yml

@@ -1,0 +1,10 @@
+---
+- name: TASK 20 ----------- Configure containerd, kubelet and kubernetes-proxy on workers
+  hosts: tag_{{ cluster_name }}-worker
+  become: yes
+  vars_files:
+    - vars.yml
+
+  roles:
+    - 20_configure_and_run_containerd_kubelet_kubeproxy
+

@@ -1,0 +1,10 @@
+---
+- name: TASK 4 ----------- Distribute client and CA certificates to workers
+  hosts: tag_{{ cluster_name }}-worker
+  become: yes
+  vars_files:
+    - vars.yml
+
+  roles:
+    - 04_distribute_clients_certificates
+
