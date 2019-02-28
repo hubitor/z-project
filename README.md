@@ -33,7 +33,7 @@
 
 Для настройки Gitlab используется ansible+API, а так же 3 подготовленных репозитория.
 
-- https://github.com/miklezzzz/search_engine_crawler.git содержит чарты приложения crawler.
+- https://github.com/miklezzzz/crawler-deploy.git содержит чарты приложения crawler.
 - https://github.com/miklezzzz/search_engine_crawler.git содержит код приложения crawler.
 - https://github.com/miklezzzz/search_engine_ui содержит код UI приложения crawler.
 - В проектах реализованы несложные pipeline (build+test+review для не master веток в отдельных namespace, build+test+release+deploy для master веток через pipeline trigger, деплой в staging/production среды).
