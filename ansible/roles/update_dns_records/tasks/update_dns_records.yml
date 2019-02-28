@@ -18,6 +18,6 @@
      body_format: json
      method: POST
      headers:
-       X-NSONE-Key: jA5IG6WEJ1hcNdErVtNn
+       X-NSONE-Key: token_was_here
    ignore_errors: True
 
