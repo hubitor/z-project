@@ -7,6 +7,10 @@ variable region {
   description = "Network region"
 }
 
+variable subnet {
+  description = "Default subnet name for a controller host"
+}
+
 variable network-link {
   description = "Kubernetes network link"
 }

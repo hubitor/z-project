@@ -1,0 +1,23 @@
+---
+ - name: Get GCP load balancer IP
+   shell: gcloud compute forwarding-rules describe kubernetes-forwarding-rule-application --region europe-west1 --format="value(IPAddress)"
+   register: LB_IP
+  
+ 
+ - name: Update wildcard dns record
+   uri:
+     url: https://api.nsone.net/v1/zones/z-project.tk/*.z-project.tk/A
+     body:
+       zone: z-project.tk
+       domain: '*.z-project.tk'
+       type: A
+       ttl: 300
+       answers:
+       - answer:
+         - '{{ LB_IP["stdout"] }}'
+     body_format: json
+     method: POST
+     headers:
+       X-NSONE-Key: jA5IG6WEJ1hcNdErVtNn
+   ignore_errors: True
+

@@ -1,8 +1,0 @@
----
-- name: Plybook for Gitlab
-  hosts: localhost
-  connection: local
-  gather_facts: false
-  
-- import_playbook: gitlab_configuration.yml
-

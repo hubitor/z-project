@@ -1,7 +1,7 @@
 ---
  - name: Create the Gitlab Group
    uri:
-     url: http://gitlab-gitlab/api/v3/groups
+     url: http://gitlab.z-project.tk/api/v4/groups
      method: POST
      body: name={{ gitlab_ci_user }}&path={{ gitlab_ci_user }}&visibility=public
      status_code: 201
@@ -9,52 +9,82 @@
        PRIVATE-TOKEN: "{{ gitlab_token }}"
    ignore_errors: True
 
- - name: Create the variable CI_REGISTRY_USERNAME for the Group
+ - name: Create CI_REGISTRY_USERNAME variable for the Group
    uri:
-     url: http://gitlab-gitlab/api/v3/groups/{{ gitlab_ci_user }}/variables
+     url: http://gitlab.z-project.tk/api/v4/groups/{{ gitlab_ci_user }}/variables
      method: POST
-     body: protected=true&key=CI_REGISTRY_USER&value={{ gitlab_ci_user }}
+     body: protected=false&key=CI_REGISTRY_USER&value={{ gitlab_ci_user }}
      status_code: 201
      headers:
        PRIVATE-TOKEN: "{{ gitlab_token }}"
    ignore_errors: True
 
- - name: Create the variables CI_REGISTRY_PASSWORD for the Group
+ - name: Create CI_REGISTRY_PASSWORD variable for the Group
    uri:
-     url: http://gitlab-gitlab/api/v3/groups/{{ gitlab_ci_user }}/variables
+     url: http://gitlab.z-project.tk/api/v4/groups/{{ gitlab_ci_user }}/variables
      method: POST
-     body: protected=true&key=CI_REGISTRY_PASSWORD&value={{ gitlab_ci_password }}
+     body: protected=false&key=CI_REGISTRY_PASSWORD&value={{ gitlab_ci_password }}
      status_code: 201
      headers:
        PRIVATE-TOKEN: "{{ gitlab_token }}"
    ignore_errors: True
 
- - name: Create the project CRAWLER in the Group
+ - name: Create the project crawler in the Group
    uri:
-     url: http://gitlab-gitlab/api/v3/projects
+     url: http://gitlab.z-project.tk/api/v4/projects
      method: POST
-     body: name=search_engine_crawler&namespace_id=2&path=search_engine_crawler&default_branch=master&visibility=public&import_url=https://github.com/miklezzzz/search_engine_crawler.git
+     body: name=search-engine-crawler&namespace_id=2&path=search-engine-crawler&default_branch=master&visibility=public&public_builds=true&import_url=https://github.com/miklezzzz/search_engine_crawler.git
      status_code: 201
      headers:
        PRIVATE-TOKEN: "{{ gitlab_token }}"
    ignore_errors: True
 
- - name: Create the project CRAWLER_UI in the Group
+ - name: Create the project crawler-ui in the Group
    uri:
-     url: http://gitlab-gitlab/api/v3/projects
+     url: http://gitlab.z-project.tk/api/v4/projects
      method: POST
-     body: name=search_engine_ui&namespace_id=2&path=search_engine_ui&default_branch=master&visibility=public&import_url=https://github.com/miklezzzz/search_engine_ui.git&jobs_enabled=true&shared_runners_enabled=true&ci_config_path=./.gitlab-ci.yml
+     body: name=search-engine-ui&namespace_id=2&path=search-engine-ui&default_branch=master&visibility=public&import_url=https://github.com/miklezzzz/search_engine_ui.git
      status_code: 201
      headers:
        PRIVATE-TOKEN: "{{ gitlab_token }}"
    ignore_errors: True
 
- - name: Create the project CRAWLER_DEPLOY in the Group
+ - name: Create the project crawler-deploy in the Group
    uri:
-     url: http://gitlab-gitlab/api/v3/projects
+     url: http://gitlab.z-project.tk/api/v4/projects
      method: POST
-     body: name=crawler_deploy&namespace_id=2&path=crawler_deploy&default_branch=master&visibility=public&import_url=https://github.com/miklezzzz/crawler-deploy.git
+     body: name=crawler-deploy&namespace_id=2&path=crawler-deploy&default_branch=master&visibility=public&import_url=https://github.com/miklezzzz/crawler-deploy.git
      status_code: 201
      headers:
        PRIVATE-TOKEN: "{{ gitlab_token }}"
    ignore_errors: True
+
+ - name: Create a pipeline trigger in crawler-deploy project
+   uri:
+     url: http://gitlab.z-project.tk/api/v4/projects/{{ gitlab_ci_user }}%2Fcrawler-deploy/triggers
+     method: POST
+     body: description=pipeline_trigger
+     status_code: 201
+     headers:
+       PRIVATE-TOKEN: "{{ gitlab_token }}"
+   ignore_errors: True
+
+ - name: List pipeline triggers in crawler-deploy project
+   uri:
+     url: http://gitlab.z-project.tk/api/v4/projects/{{ gitlab_ci_user }}%2Fcrawler-deploy/triggers
+     status_code: 201
+     headers:
+       PRIVATE-TOKEN: "{{ gitlab_token }}"
+   ignore_errors: True
+   register: output
+
+ - name: Create CI_PIPELINE_TRIGGER variable for the Group
+   uri:
+     url: http://gitlab.z-project.tk/api/v4/groups/{{ gitlab_ci_user }}/variables
+     method: POST
+     body: protected=false&key=CI_PIPELINE_TRIGGER&value={{ output.json[0].token }}
+     status_code: 201
+     headers:
+       PRIVATE-TOKEN: "{{ gitlab_token }}"
+   ignore_errors: True
+

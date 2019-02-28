@@ -66,5 +66,7 @@ module "load-balancer" {
   pool_instances           = "${module.controller.controller_links}"
   pool_instances_application           = "${module.worker.worker_links}"
   network-link             = "${module.network.network-link}"
+  subnet		   = "${module.network.kubernetes_subnet_name}"
   external_ip              = "${module.network.external_ip}"
 }
+

@@ -18,6 +18,12 @@ variable depends_on {
   type        = "list"
 }
 
+variable worker-disk-links {
+  description = "List of self_links of disks for workers"
+  default     = []
+  type        = "list"
+}
+
 variable subnet {
   description = "Default subnet name for a worker host"
 }

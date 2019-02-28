@@ -1,4 +1,4 @@
----
+{{ if eq .Release.Namespace "production" }}
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -17,3 +17,4 @@ spec:
   nfs:
     path: /mnt/nfs/mongo
     server: 10.240.0.150
+{{ end }}

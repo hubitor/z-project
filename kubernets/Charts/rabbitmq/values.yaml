@@ -157,7 +157,10 @@ tolerations: []
 affinity: {}
 
 ## annotations for rabbitmq pods
-podAnnotations: {}
+podAnnotations:
+  prometheus.io/scrape: "true"
+  prometheus.io/port: "9090"
+
 
 ## Configure the ingress resource that allows you to access the
 ## Wordpress installation. Set up the URL
@@ -209,7 +212,7 @@ readinessProbe:
   successThreshold: 1
 
 metrics:
-  enabled: false
+  enabled: true
   image:
     registry: docker.io
     repository: kbudde/rabbitmq-exporter

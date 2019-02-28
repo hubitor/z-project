@@ -17,3 +17,4 @@
 /mnt/nfs/gitlab/redis 10.240.0.0/24(rw,sync,no_root_squash,no_subtree_check)
 /mnt/nfs/gitlab/postgres 10.240.0.0/24(rw,sync,no_root_squash,no_subtree_check)
 /mnt/nfs/prometheus 10.240.0.0/24(rw,sync,no_root_squash,no_subtree_check)
+/mnt/nfs/elasticsearch 10.240.0.0/24(rw,sync,no_root_squash,no_subtree_check)

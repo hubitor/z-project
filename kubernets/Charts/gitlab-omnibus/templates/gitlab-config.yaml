@@ -9,7 +9,7 @@ metadata:
     heritage: "{{ .Release.Service }}"
 data:
   external_scheme: http
-  external_hostname: {{ template "fullname" . }}
+  external_hostname: {{ template "name" . }}.z-project.tk
   registry_external_scheme: https
   registry_external_hostname: registry.{{ .Values.baseDomain }}
   mattermost_external_scheme: https

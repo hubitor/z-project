@@ -1,0 +1,9 @@
+---
+- name: TASK 1 ----------- Update DNS records for apps
+  hosts: localhost
+  become: yes
+  gather_facts: no
+
+  roles:
+    - update_dns_records
+

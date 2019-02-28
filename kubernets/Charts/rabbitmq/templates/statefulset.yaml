@@ -3,7 +3,7 @@ kind: StatefulSet
 metadata:
   name: {{ template "rabbitmq.fullname" . }}
   labels:
-    app: {{ template "rabbitmq.name" . }}
+    app: {{ .Release.Name }}-{{ template "rabbitmq.name" . }}
     chart: {{ template "rabbitmq.chart" .  }}
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
@@ -12,12 +12,12 @@ spec:
   replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
-      app: {{ template "rabbitmq.name" . }}
+      app: {{ .Release.Name }}-{{ template "rabbitmq.name" . }}
       release: "{{ .Release.Name }}"
   template:
     metadata:
       labels:
-        app: {{ template "rabbitmq.name" . }}
+        app: {{ .Release.Name }}-{{ template "rabbitmq.name" . }}
         release: "{{ .Release.Name }}"
         chart: {{ template "rabbitmq.chart" .  }}
       {{- if .Values.podLabels }}
@@ -206,7 +206,7 @@ spec:
               path: rabbitmq.conf
             - key: enabled_plugins
               path: enabled_plugins
-      {{- if not .Values.persistence.enabled }}
+      {{- if ne .Release.Namespace "production" }}
         - name: data
           emptyDir: {}
   {{- else }}

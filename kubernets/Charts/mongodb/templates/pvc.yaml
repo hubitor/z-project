@@ -1,4 +1,4 @@
-{{- if .Values.persistence.enabled }}
+{{ if eq .Release.Namespace "production" }}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:

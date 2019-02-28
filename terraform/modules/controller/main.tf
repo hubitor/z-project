@@ -1,7 +1,7 @@
 resource "google_compute_instance" "controller" {
   count        = "${var.instance_count}"
   name         = "${var.name}-${count.index}"
-  machine_type = "g1-small"
+  machine_type = "n1-standard-1"
   zone         = "${var.zone}"
   tags         = "${var.tags}"
   can_ip_forward = "true"

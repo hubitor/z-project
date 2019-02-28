@@ -3,12 +3,12 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: {{ template "crawler-ui.fullname" . }}
-  namespace: default
   annotations: 
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   rules:
-  - http:
+  - host: crawler-{{ .Release.Namespace }}.z-project.tk
+    http:
       paths:
       - path: "/"
         backend:

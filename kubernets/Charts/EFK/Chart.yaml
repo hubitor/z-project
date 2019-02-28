@@ -1,0 +1,8 @@
+---
+name: EFK
+version: 1.0.0
+description: EFK stack
+maintainers:
+  - name: Mikhail Scherba
+    email: my@mail.com
+appVersion: 1.0

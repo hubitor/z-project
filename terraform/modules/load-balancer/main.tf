@@ -6,7 +6,7 @@ resource "google_compute_http_health_check" "kubernetes-api" {
 
 resource "google_compute_http_health_check" "application" {
   name               = "application"
-  request_path       = "/"
+  request_path       = "/healthz"
   port               = 80
 }
 
@@ -18,7 +18,7 @@ resource "google_compute_firewall" "kubernetes-the-hard-way-allow-health-check" 
     protocol = "tcp"
   }
 
-  source_ranges = [ "209.85.152.0/22", "209.85.204.0/22", "35.191.0.0/16" ]
+  source_ranges = [ "209.85.152.0/22", "209.85.204.0/22", "35.191.0.0/16","130.211.0.0/22" ]
 }
 
 resource "google_compute_target_pool" "kubernetes-target-pool-api" {
@@ -58,3 +58,5 @@ resource "google_compute_forwarding_rule" "kubernetes-forwarding-rule-applicatio
   port_range = "80"
   region     = "${var.region}"
 }
+
+

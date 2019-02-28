@@ -1,9 +1,9 @@
 cluster_name: z-project
 gce_project_id: docker-223515
 start_from: 0
-w_count: 3
+w_count: 4
 c_count: 3
 auth: rbac
-gitlab_token:
-gitlab_ci_user:
-gitlab_ci_password:
+gitlab_token: FNuw_o_BPmb6an-WyGPB
+gitlab_ci_user: username
+gitlab_ci_password: password

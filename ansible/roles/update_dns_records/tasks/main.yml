@@ -1,0 +1,3 @@
+---
+# tasks file for update_dns_records
+  - include: update_dns_records.yml

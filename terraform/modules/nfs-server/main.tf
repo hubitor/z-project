@@ -1,6 +1,6 @@
 resource "google_compute_instance" "nfs" {
   name         = "${var.name}"
-  machine_type = "g1-small"
+  machine_type = "n1-standard-1"
   zone         = "${var.zone}"
   tags         = "${var.tags}"
   can_ip_forward = "false"

@@ -49,6 +49,13 @@
      recurse: yes
      mode: 0777
 
+ - name: Create NFS directory for elasticsearch
+   file:
+     path: /mnt/nfs/elasticsearch
+     state: directory
+     recurse: yes
+     mode: 0777
+
  - name: Create NFS directory for gitlab registry
    file:
      path: /mnt/nfs/gitlab/registry
